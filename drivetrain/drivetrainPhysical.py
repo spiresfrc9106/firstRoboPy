@@ -6,6 +6,7 @@ from wpimath.kinematics import SwerveDrive4Kinematics
 from utils.units import lbsToKg
 from utils.units import deg2Rad
 from utils.units import in2m
+from wrappers.wrapperedSRXMagEncoder import WrapperedPulseWidthEncoder
 
 """
 Defines the physical dimensions and characteristics of the drivetrain
@@ -16,29 +17,31 @@ Defines the physical dimensions and characteristics of the drivetrain
 
 # Wheel base half width: Distance from the center of the frame rail
 # out to the center of the "contact patch" where the wheel meets the ground
-WHEEL_BASE_HALF_WIDTH_M = inchesToMeters(23.75/2.0)
-WHEEL_BASE_HALF_LENGTH_M = inchesToMeters(23.75/2.0)
+WHEEL_BASE_HALF_WIDTH_M = inchesToMeters(16.5/2.0)
+WHEEL_BASE_HALF_LENGTH_M = inchesToMeters(26.5/2.0)
 
 # Additional distance from the wheel contact patch out to the edge of the bumper
 BUMPER_THICKNESS_M = inchesToMeters(2.5)
 
 # Total mass includes robot, battery, and bumpers
 # more than the "weigh-in" weight
-ROBOT_MASS_KG = lbsToKg(140)
+ROBOT_MASS_KG = lbsToKg(60)
 
 # Model the robot's moment of intertia as a square slab 
 # slightly bigger than wheelbase with axis through center
-ROBOT_MOI_KGM2 = 1.0/12.0 * ROBOT_MASS_KG *  math.pow((WHEEL_BASE_HALF_WIDTH_M*2.2),2) * 2 
+ROBOT_MOI_KGM2 = 1.0/12.0 * ROBOT_MASS_KG * WHEEL_BASE_HALF_WIDTH_M * WHEEL_BASE_HALF_LENGTH_M*math.pow(2.2,2) * 2
 
 # SDS MK4i Swerve Module Ratios
 # See https://www.swervedrivespecialties.com/products/mk4i-swerve-module?variant=39598777172081
 WHEEL_GEAR_RATIO_L1 = 8.41 
 WHEEL_GEAR_RATIO_L2 = 6.75 
 WHEEL_GEAR_RATIO_L2 = 6.12 
-AZMTH_GEAR_RATIO = 12.8
+AZMTH_GEAR_RATIO = 4.71 # TODO FIX ME UP
+
+WHEEL_GEAR_RATIO_MAX_SWERVE_L2 = 4.71
 
 ### CHANGE THIS DEPENDING ON WHICH MODULE GEAR RATIO IS INSTALLED
-WHEEL_GEAR_RATIO = WHEEL_GEAR_RATIO_L1
+WHEEL_GEAR_RATIO = WHEEL_GEAR_RATIO_MAX_SWERVE_L2
 
 # carpet/roughtop interface fudge factor
 # This accounts for the fact that roughtop tread
@@ -50,7 +53,7 @@ WHEEL_FUDGE_FACTOR = 0.9238
 
 # Nominal 4-inch diameter swerve drive wheels
 # https:#www.swervedrivespecialties.com/collections/mk4i-parts/products/billet-wheel-4d-x-1-5w-bearing-bore
-WHEEL_RADIUS_IN = 4.0/2.0 * WHEEL_FUDGE_FACTOR 
+WHEEL_RADIUS_IN = 3.0/2.0 * WHEEL_FUDGE_FACTOR
 
 # Utility conversion functions to go between drivetrain "linear" measurements and wheel motor rotational measurements
 def dtLinearToMotorRot(lin):
@@ -86,10 +89,15 @@ MAX_ROTATE_ACCEL_RAD_PER_SEC_2 = MAX_ROTATE_SPEED_RAD_PER_SEC/.25 #0-full time o
 # 3 - Using a square, twist the modules by hand until they are aligned with the robot's chassis
 # 4 - Read out the encoder readings for each module, put them here
 # 5 - Redeploy code, verify that the  encoder readings are correct as each module is manually rotated
-FL_ENCODER_MOUNT_OFFSET_RAD = deg2Rad(-37.86)
-FR_ENCODER_MOUNT_OFFSET_RAD = deg2Rad(136.3)
-BL_ENCODER_MOUNT_OFFSET_RAD = deg2Rad(59.97)
-BR_ENCODER_MOUNT_OFFSET_RAD = deg2Rad(-64.44)
+#FL_ENCODER_MOUNT_OFFSET_RAD = deg2Rad(4.0 - 11.95 - 90.0)
+#FR_ENCODER_MOUNT_OFFSET_RAD = deg2Rad(41.89 - 90.0 + 180.0)
+#BL_ENCODER_MOUNT_OFFSET_RAD = deg2Rad(-1 + 35.5 - 90.0)
+#BR_ENCODER_MOUNT_OFFSET_RAD = deg2Rad(-3 - 10.5 - 90.0)
+
+FL_ENCODER_MOUNT_OFFSET_RAD = deg2Rad(0-110)
+FR_ENCODER_MOUNT_OFFSET_RAD = deg2Rad(0-40-14)
+BL_ENCODER_MOUNT_OFFSET_RAD = deg2Rad(0-45-10-4)
+BR_ENCODER_MOUNT_OFFSET_RAD = deg2Rad(0+70+5)
 
 
 # Module Indices (for ease of array manipulation)
@@ -97,6 +105,18 @@ FL = 0
 FR = 1
 BL = 2
 BR = 3
+
+# Lambda function to make a swerve module azimuth encoder reader object
+def wrappereSwerveDriveAzmthEncoder(azmthEncoderPortIdx, moduleName, azmthOffsetRad):
+    #return WrapperedSRXMagEncoder(azmthEncoderPortIdx, moduleName + "_azmthEnc", azmthOffset, False)
+    return WrapperedPulseWidthEncoder(
+        port=azmthEncoderPortIdx,
+        name=moduleName + "_azmthEnc",
+        mountOffsetRad=azmthOffsetRad,
+        dirInverted=True,
+        minPulseSec=1e-6,
+        maxPulseSec=1025e-6,
+        minAcceptableFreqHz=0.9/1025e-6)
 
 # Array of translations from robot's origin (center bottom, on floor) to the module's contact patch with the ground
 robotToModuleTranslations = []
@@ -112,4 +132,17 @@ kinematics = SwerveDrive4Kinematics(
         robotToModuleTranslations[BL], 
         robotToModuleTranslations[BR]
     )
+
+# Mike Stitt copied from: https://github.com/aesatchien/FRC2429_2023/blob/main/robot/constants.py
+# --------------  SIMULATION  ---------------
+k_start_x = 2.1
+k_start_y = 4.7
+k_start_heading = 0  # looking at the drawing originally tried -109. TODO: Swerve uses 0, maybe change for compatibility
+k_drivetrain_motor_count = 4
+k_wheel_diameter_m = 6 * 0.0254  # wheel diameter in meters
+robot_characterization = {'ks':0.291, 'kv':1.63, 'ka':0.293, 'track_width':0.89}  # 2022 climberbot
+ks_volts = robot_characterization['ks']  # so far this is only used in the Ramsete command, but in 2021 we used it in tank model as well
+kv_volt_seconds_per_meter = robot_characterization['kv']  # used in physics_old.py LinearSystemId and Ramsete
+ka_volt_seconds_squared_per_meter = robot_characterization['ka']  # used in physics_old.py LinearSystemId and Ramsete
+
    

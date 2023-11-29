@@ -7,15 +7,12 @@
             "label": "PyFRC: _Deploy",
             "type": "shell",
             "windows": {
-                "command": "python ${workspaceFolder}\\robot.py deploy --skip-tests "
+                "command": "${command:python.interpreterPath} ${workspaceFolder}\\robot.py deploy --skip-tests "
             },
             "linux": {
-                "command": "python ${workspaceFolder}/robot.py deploy --skip-tests "
+                "command": "${command:python.interpreterPath} ${workspaceFolder}/robot.py deploy --skip-tests "
             },
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            },
+            "group": "build",
             "presentation": {
                 "reveal": "always",
                 "panel": "dedicated",
@@ -32,13 +29,13 @@
             "label": "PyFRC: _Activate Debug",
             "type": "shell",
             "windows": {
-                "command": "ssh lvuser@roboRIO-1736-FRC.local -t 'touch /home/lvuser/py/enableDebug; ./robotCommand || true; echo Waiting for robot program to start...; sleep 5' "
+                "command": "ssh lvuser@roboRIO-9106-FRC.local -t 'touch /home/lvuser/py/enableDebug; ./robotCommand || true; echo Waiting for robot program to start...; sleep 5' "
             },
             "linux": {
-                "command": "ssh lvuser@roboRIO-1736-FRC.local -t 'touch /home/lvuser/py/enableDebug; ./robotCommand || true; echo Waiting for robot program to start...; sleep 5' "
+                "command": "ssh lvuser@roboRIO-9106-FRC.local -t 'touch /home/lvuser/py/enableDebug; ./robotCommand || true; echo Waiting for robot program to start...; sleep 5' "
             },
             "group": {
-                "kind": "build",
+                "kind": "build"
             },
             "presentation": {
                 "reveal": "always",
@@ -56,10 +53,10 @@
             "label": "PyFRC: _Run Lint Check",
             "type": "shell",
             "windows": {
-                "command": "pylint --rcfile=${workspaceFolder}\\.pylintrc ${workspaceFolder}\\**\\*.py"
+                "command": "${command:python.interpreterPath} -m pylint --rcfile=${workspaceFolder}\\.pylintrc ${workspaceFolder}\\**\\*.py"
             },
             "linux": {
-                "command": "pylint --rcfile=${workspaceFolder}/.pylintrc $(git ls-files '${workspaceFolder}/*.py')"
+                "command": "${command:python.interpreterPath} -m pylint --rcfile=${workspaceFolder}/.pylintrc $(git ls-files '${workspaceFolder}/*.py')"
             },
             "presentation": {
                 "reveal": "always",
@@ -71,16 +68,20 @@
             "problemMatcher": [],
             "icon": {
                 "id": "microscope"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
             }
         },
         {
             "label": "PyFRC: _Run Test Suite",
             "type": "shell",
             "windows": {
-                "command": "python ${workspaceFolder}\\robot.py test"
+                "command": "${command:python.interpreterPath} ${workspaceFolder}\\robot.py test"
             },
             "linux": {
-                "command": "python ${workspaceFolder}/robot.py test"
+                "command": "${command:python.interpreterPath} ${workspaceFolder}/robot.py test"
             },
             "group": {
                 "kind": "test",
@@ -102,13 +103,13 @@
             "label": "PyFRC: _Run Simulation",
             "type": "shell",
             "windows": {
-                "command": "python ${workspaceFolder}\\robot.py sim"
+                "command": "${command:python.interpreterPath} ${workspaceFolder}\\robot.py sim"
             },
             "linux": {
-                "command": "python ${workspaceFolder}/robot.py sim"
+                "command": "${command:python.interpreterPath} ${workspaceFolder}/robot.py sim"
             },
             "group": {
-                "kind": "test",
+                "kind": "test"
             },
             "presentation": {
                 "reveal": "always",
@@ -126,13 +127,13 @@
             "label": "PyFRC: _View Netconsole",
             "type": "shell",
             "windows": {
-                "command": "py -3 -m netconsole roboRIO-1736-frc.local"
+                "command": "${command:python.interpreterPath} -m netconsole roboRIO-9106-frc.local"
             },
             "linux": {
-                "command": "netconsole roboRIO-1736-frc.local"
+                "command": "netconsole roboRIO-9106-frc.local"
             },
             "group": {
-                "kind": "build",
+                "kind": "build"
             },
             "presentation": {
                 "reveal": "always",

@@ -13,7 +13,7 @@ class WrapperedPulseWidthEncoder():
     Reads the absolute angle via pulse duration
     Includes logging and handling fault detection 
     """
-    def __init__(self, port, name, mountOffsetRad, dirInverted, minPulse, maxPulse, minAcceptableFreq):
+    def __init__(self, port, name, mountOffsetRad, dirInverted, minPulseSec, maxPulseSec, minAcceptableFreqHz):
         self.dutyCycle = DutyCycle(DigitalInput(port))
         self.name = f"Encoder_{name}"
         self.disconFault = Fault(f"{self.name} DIO port {port} Disconnected")
@@ -22,15 +22,15 @@ class WrapperedPulseWidthEncoder():
         self.curAngleRad = 0
         self.dirInverted = dirInverted
 
-        self.minPulseTimeSec = minPulse
-        self.maxPulseTimeSec = maxPulse
-        self.minAcceptableFreq = minAcceptableFreq
+        self.minPulseTimeSec = minPulseSec
+        self.maxPulseTimeSec = maxPulseSec
+        self.minAcceptableFreqHz = minAcceptableFreqHz
 
 
     def update(self):
         """Return the raw angle reading from the sensor in radians"""
         freq = self.dutyCycle.getFrequency()
-        self.faulted = freq < self.minAcceptableFreq  # abnormal frequency, we must be faulted
+        self.faulted = freq < self.minAcceptableFreqHz  # abnormal frequency, we must be faulted
         self.disconFault.set(self.faulted)
 
         if(self.faulted):

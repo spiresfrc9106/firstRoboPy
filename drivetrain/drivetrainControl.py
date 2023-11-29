@@ -18,10 +18,10 @@ class DrivetrainControl(metaclass=Singleton):
     """
     def __init__(self):
         self.modules = []
-        self.modules.append(SwerveModuleControl("FL", 2, 3, 0, FL_ENCODER_MOUNT_OFFSET_RAD, False))
-        self.modules.append(SwerveModuleControl("FR", 4, 5, 1, FR_ENCODER_MOUNT_OFFSET_RAD, True))
-        self.modules.append(SwerveModuleControl("BL", 6, 7, 2, BL_ENCODER_MOUNT_OFFSET_RAD, False))
-        self.modules.append(SwerveModuleControl("BR", 8, 9, 3, BR_ENCODER_MOUNT_OFFSET_RAD, True))
+        self.modules.append(SwerveModuleControl("FL", 2, 3, 0, FL_ENCODER_MOUNT_OFFSET_RAD, not False))
+        self.modules.append(SwerveModuleControl("FR", 4, 5, 1, FR_ENCODER_MOUNT_OFFSET_RAD, not True))
+        self.modules.append(SwerveModuleControl("BL", 6, 7, 2, BL_ENCODER_MOUNT_OFFSET_RAD, not False))
+        self.modules.append(SwerveModuleControl("BR", 8, 9, 3, BR_ENCODER_MOUNT_OFFSET_RAD, not True))
         
         self.desChSpd = ChassisSpeeds()
         self.curDesPose = Pose2d()

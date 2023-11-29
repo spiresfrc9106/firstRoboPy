@@ -1,4 +1,26 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "SPARK MAX [2]": {
+        "header": {
+          "open": true
+        }
+      },
+      "SPARK MAX [3]": {
+        "header": {
+          "open": true
+        }
+      }
+    },
+    "RoboRIO": {
+      "RoboRIO Input": {
+        "open": true
+      },
+      "window": {
+        "visible": true
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
@@ -9,9 +31,15 @@
       "/LiveWindow/Ungrouped/DigitalInput[3]": "Digital Input",
       "/LiveWindow/Ungrouped/DigitalOutput[8]": "Digital Output",
       "/LiveWindow/Ungrouped/DigitalOutput[9]": "Digital Output",
-      "/SmartDashboard/DT Pose 2D": "Field2d"
+      "/SmartDashboard/DT Pose 2D": "Field2d",
+      "/SmartDashboard/Field": "Field2d"
     },
     "windows": {
+      "/FMSInfo": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/DT Pose 2D": {
         "Robot": {
           "style": "Box/Image"
@@ -44,5 +72,19 @@
         "open": true
       }
     }
+  },
+  "NetworkTables Info": {
+    "Clients": {
+      "open": true
+    },
+    "Connections": {
+      "open": true
+    },
+    "Server": {
+      "Publishers": {
+        "open": true
+      }
+    },
+    "visible": true
   }
 }
