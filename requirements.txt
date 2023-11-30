@@ -1,0 +1,5 @@
+pylint
+coverage
+robotpy
+robotpy[all]
+debugpy

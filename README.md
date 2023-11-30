@@ -12,16 +12,65 @@ Before developing code on a new computer, perform the following:
 3. Run these commands:
 
 ```cmd
+    cd TO_THE_DIRECTORY_THAT_WAS_CLONED
     python -m pip install --upgrade pip
-    python -m pip install pylint
-    python -m pip install coverage
-    python -m pip install robotpy
-    python -m pip install -U robotpy[all]
+    python -m pip install -r requirements.txt
+```
+
+```cmd
+python -m robotpy_installer download-python
+```
+
+TODO do we need to do this step
+```cmd
+python -m robotpy_installer download robotpy
+python -m robotpy_installer download robotpy[ctre]
+python -m robotpy_installer download robotpy[rev]
+python -m robotpy_installer download robotpy[navx]
+python -m robotpy_installer download robotpy[pathplannerlib]
+```
+
+Perhaps this:
+```cmd
+python -m robotpy_installer download robotpy
+python -m robotpy_installer download robotpy[all]
+```
+
+Or perhaps this:
+```cmd
+python -m robotpy_installer download -r roborio_requirements.txt
+```
+
+7. Power-up the robot
+5. Make sure that you're on the same network as the robot
+5.1 One way is to leave your computer connected to WiFi internet and make a wired Ethernet connection to the robot
+5.2 Another way is to connect your computer to the robot over WiFi
+6. Optionally reflash your roboRIO like this to get a clean install: https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-3/index.html
+7. Install needed python and libraries on the RoboRIO see: https://robotpy.readthedocs.io/en/stable/install/robot.html#install-robotpy
+
+```cmd
+python -m robotpy_installer install-python
+python -m robotpy_installer install robotpy
+python -m robotpy_installer install robotpy[ctre]
+python -m robotpy_installer install robotpy[rev]
+python -m robotpy_installer install robotpy[navx]
+python -m robotpy_installer install robotpy[pathplannerlib]
 ```
 
 ## Docs
 
 [Click here to see documentation for common libraries](docs/UserAPI).
+
+## The robot website
+
+On a simulator: http://localhost:5805/
+
+On a RoboRIO:
+
+* RobotCasserole: http://10.17.36.2:5805/
+* Spires: http://10.91.6.2:5805/
+
+# TODO Fix these up.
 
 ## Deploying to the Robot
 

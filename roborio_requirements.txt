@@ -1,0 +1,3 @@
+robotpy
+robotpy[all]
+debugpy

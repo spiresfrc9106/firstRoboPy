@@ -132,17 +132,3 @@ kinematics = SwerveDrive4Kinematics(
         robotToModuleTranslations[BL], 
         robotToModuleTranslations[BR]
     )
-
-# Mike Stitt copied from: https://github.com/aesatchien/FRC2429_2023/blob/main/robot/constants.py
-# --------------  SIMULATION  ---------------
-k_start_x = 2.1
-k_start_y = 4.7
-k_start_heading = 0  # looking at the drawing originally tried -109. TODO: Swerve uses 0, maybe change for compatibility
-k_drivetrain_motor_count = 4
-k_wheel_diameter_m = 6 * 0.0254  # wheel diameter in meters
-robot_characterization = {'ks':0.291, 'kv':1.63, 'ka':0.293, 'track_width':0.89}  # 2022 climberbot
-ks_volts = robot_characterization['ks']  # so far this is only used in the Ramsete command, but in 2021 we used it in tank model as well
-kv_volt_seconds_per_meter = robot_characterization['kv']  # used in physics_old.py LinearSystemId and Ramsete
-ka_volt_seconds_squared_per_meter = robot_characterization['ka']  # used in physics_old.py LinearSystemId and Ramsete
-
-   
