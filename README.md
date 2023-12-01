@@ -19,25 +19,6 @@ Before developing code on a new computer, perform the following:
 
 ```cmd
 python -m robotpy_installer download-python
-```
-
-TODO do we need to do this step
-```cmd
-python -m robotpy_installer download robotpy
-python -m robotpy_installer download robotpy[ctre]
-python -m robotpy_installer download robotpy[rev]
-python -m robotpy_installer download robotpy[navx]
-python -m robotpy_installer download robotpy[pathplannerlib]
-```
-
-Perhaps this:
-```cmd
-python -m robotpy_installer download robotpy
-python -m robotpy_installer download robotpy[all]
-```
-
-Or perhaps this:
-```cmd
 python -m robotpy_installer download -r roborio_requirements.txt
 ```
 
@@ -51,6 +32,7 @@ python -m robotpy_installer download -r roborio_requirements.txt
 ```cmd
 python -m robotpy_installer install-python
 python -m robotpy_installer install robotpy
+python -m robotpy_installer install debugpy
 python -m robotpy_installer install robotpy[ctre]
 python -m robotpy_installer install robotpy[rev]
 python -m robotpy_installer install robotpy[navx]
