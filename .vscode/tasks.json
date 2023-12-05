@@ -7,10 +7,10 @@
             "label": "PyFRC: _Deploy",
             "type": "shell",
             "windows": {
-                "command": "${command:python.interpreterPath} ${workspaceFolder}\\robot.py deploy --skip-tests "
+                "command": "python ${workspaceFolder}\\robot.py deploy --skip-tests "
             },
             "linux": {
-                "command": "${command:python.interpreterPath} ${workspaceFolder}/robot.py deploy --skip-tests "
+                "command": "python ${workspaceFolder}/robot.py deploy --skip-tests "
             },
             "group": "build",
             "presentation": {
@@ -53,10 +53,10 @@
             "label": "PyFRC: _Run Lint Check",
             "type": "shell",
             "windows": {
-                "command": "${command:python.interpreterPath} -m pylint --rcfile=${workspaceFolder}\\.pylintrc ${workspaceFolder}\\**\\*.py"
+                "command": "python -m pylint --rcfile=${workspaceFolder}\\.pylintrc ${workspaceFolder}\\**\\*.py"
             },
             "linux": {
-                "command": "${command:python.interpreterPath} -m pylint --rcfile=${workspaceFolder}/.pylintrc $(git ls-files '${workspaceFolder}/*.py')"
+                "command": "python -m pylint --rcfile=${workspaceFolder}/.pylintrc $(git ls-files '${workspaceFolder}/*.py')"
             },
             "presentation": {
                 "reveal": "always",
@@ -78,10 +78,10 @@
             "label": "PyFRC: _Run Test Suite",
             "type": "shell",
             "windows": {
-                "command": "${command:python.interpreterPath} ${workspaceFolder}\\robot.py test"
+                "command": "python ${workspaceFolder}\\robot.py test"
             },
             "linux": {
-                "command": "${command:python.interpreterPath} ${workspaceFolder}/robot.py test"
+                "command": "python ${workspaceFolder}/robot.py test"
             },
             "group": {
                 "kind": "test",
@@ -103,10 +103,10 @@
             "label": "PyFRC: _Run Simulation",
             "type": "shell",
             "windows": {
-                "command": "${command:python.interpreterPath} ${workspaceFolder}\\robot.py sim"
+                "command": "python ${workspaceFolder}\\robot.py sim"
             },
             "linux": {
-                "command": "${command:python.interpreterPath} ${workspaceFolder}/robot.py sim"
+                "command": "python ${workspaceFolder}/robot.py sim"
             },
             "group": {
                 "kind": "test"
@@ -127,7 +127,7 @@
             "label": "PyFRC: _View Netconsole",
             "type": "shell",
             "windows": {
-                "command": "${command:python.interpreterPath} -m netconsole roboRIO-9106-frc.local"
+                "command": "python -m netconsole roboRIO-9106-frc.local"
             },
             "linux": {
                 "command": "netconsole roboRIO-9106-frc.local"
