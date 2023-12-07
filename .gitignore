@@ -7,3 +7,4 @@ simulationCrashLogs
 
 # 9106 specific ignores
 /venv*
+/.idea

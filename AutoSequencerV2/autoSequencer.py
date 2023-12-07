@@ -1,5 +1,7 @@
 from wpimath.geometry import Pose2d
-from AutoSequencerV2.modeList import ModeList
+# xyzzy - MS - we are temporarily disabling the webserver while we figure out what is causing our overruns
+#from AutoSequencerV2.modeList import ModeList
+from AutoSequencerV2.smartDashboardModeList import SmartDashboardModeList
 from AutoSequencerV2.builtInModes.doNothingMode import DoNothingMode
 from AutoSequencerV2.builtInModes.waitMode import WaitMode
 from AutoSequencerV2.sequentialCommandGroup import SequentialCommandGroup
@@ -11,20 +13,22 @@ class AutoSequencer(metaclass=Singleton):
     def __init__(self):
         
         # Have different delay modes for delaying the start of autonomous
-        self.delayModeList = ModeList("Delay")
+        self.delayModeList = SmartDashboardModeList("Delay")
         self.delayModeList.addMode(WaitMode(0.0))
         self.delayModeList.addMode(WaitMode(3.0))
         self.delayModeList.addMode(WaitMode(6.0))
         self.delayModeList.addMode(WaitMode(9.0))
+        self.delayModeList.listIsComplete()
         
         # Create a list of every autonomous mode we want
-        self.mainModeList = ModeList("Main")
+        self.mainModeList = SmartDashboardModeList("Main")
         self.mainModeList.addMode(DoNothingMode())
         
         self.topLevelCmdGroup = SequentialCommandGroup()
         self.startPose = Pose2d()
-        
-        self.updateMode(force=True) # Ensure we load the auto sequencer at least once.
+
+        # xyzzy - MS - can't do the update until the mainlist is complete.
+        #self.updateMode(force=True) # Ensure we load the auto sequencer at least once.
         
     def addMode(self, newMode):
         self.mainModeList.addMode(newMode)

@@ -25,7 +25,8 @@ class MyRobot(wpilib.TimedRobot):
 
         self.crashLogger = CrashLogger()
         wpilib.LiveWindow.disableAllTelemetry()
-        self.webserver = Webserver()
+        # xyzzy - MS - we are temporarily disabling the webserver while we figure out what is causing our overruns
+        #self.webserver = Webserver()
 
 
         self.driveTrain = DrivetrainControl()
@@ -33,14 +34,18 @@ class MyRobot(wpilib.TimedRobot):
         self.stt = SegmentTimeTracker()
         
         self.dInt = DriverInterface()
-        
+
+        self.dashboard = None
+        #self.dashboard = Dashboard()
+
         self.autoSequencer = AutoSequencer()
         self.autoSequencer.addMode(DrivePathTest1())
-
-        self.dashboard = Dashboard()
+        self.autoSequencer.mainModeList.listIsComplete()
+        # xyzzy - MS - can't do the update until the self.autoSequencer.mainModeList is complete.
+        self.autoSequencer.updateMode(force=True)
 
         self.rioMonitor = RIOMonitor()
-        
+
         
         # Uncomment this and simulate to update the code 
         # dependencies graph
@@ -51,7 +56,7 @@ class MyRobot(wpilib.TimedRobot):
     def robotPeriodic(self):
         self.stt.start()
         self.crashLogger.update()
-        
+
         if(self.dInt.getGyroResetCmd()):
             self.driveTrain.resetGyro()
         

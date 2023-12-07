@@ -13,6 +13,7 @@ class SegmentTimeTracker():
         self.prevLoopStartTime = self.loopStartTime
         self.curPeriod = 0
         self.curLoopExecDur = 0
+        self.numOfOverRuns = 0
     
     def start(self):
         self.tracer.clearEpochs()
@@ -28,7 +29,10 @@ class SegmentTimeTracker():
         self.curPeriod = self.loopStartTime - self.prevLoopStartTime
         self.curLoopExecDur = self.loopEndTime - self.loopStartTime
         if(self.curLoopExecDur > self.longLoopThresh):
+            self.numOfOverRuns += 1
             self.tracer.printEpochs()
         log("LoopPeriod", self.curPeriod * 1000.0, "ms")
         log("LoopDuration", self.curLoopExecDur * 1000.0, "ms")
-        
+        log("LoopEndTime", self.loopEndTime*1000.0*1000.0, "s")
+        log("CountOfOverRuns", self.numOfOverRuns, "count")
+
