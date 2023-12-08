@@ -4,6 +4,7 @@ networktables.json
 .coverage
 simulationLogs
 simulationCrashLogs
+.wpilib
 
 # 9106 specific ignores
 /venv*
