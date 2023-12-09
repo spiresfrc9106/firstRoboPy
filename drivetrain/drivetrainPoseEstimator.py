@@ -1,9 +1,7 @@
-#from wpilib import ADXRS450_Gyro
-import navx
-from wpilib import SPI
 from wpimath.estimator import SwerveDrive4PoseEstimator
 from wpimath.geometry import Pose2d, Rotation2d
 from drivetrain.drivetrainPhysical import kinematics
+from drivetrain.drivetrainPhysical import wrapperedGyro
 from drivetrain.drivetrainPoseTelemetry import DrivetrainPoseTelemetry
 from utils.faults import Fault
 from utils.signalLogging import log
@@ -15,9 +13,7 @@ class DrivetrainPoseEstimator():
     def __init__(self, initialModuleStates):
         self.curEstPose = Pose2d()
         self.curDesPose = Pose2d()
-        #self.gyro = ADXRS450_Gyro()
-        self.gyro = navx.AHRS.create_spi(port=SPI.Port.kMXP)
-        self.gyro.calibrate()
+        self.gyro = wrapperedGyro()
         self.gyroDisconFault = Fault("Gyro Disconnected")
         self.poseEst = SwerveDrive4PoseEstimator(
             kinematics,

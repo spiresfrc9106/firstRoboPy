@@ -13,7 +13,8 @@ from utils.units import rad2Deg
 from drivetrain.drivetrainPhysical import dtMotorRotToLinear
 from drivetrain.drivetrainPhysical import dtLinearToMotorRot
 from drivetrain.drivetrainPhysical import MAX_FWD_REV_SPEED_MPS
-from drivetrain.drivetrainPhysical import wrappereSwerveDriveAzmthEncoder
+from drivetrain.drivetrainPhysical import INVERT_AZMTH_MOTOR
+from drivetrain.drivetrainPhysical import wrapperedSwerveDriveAzmthEncoder
 
 class SwerveModuleControl():
     """
@@ -32,11 +33,10 @@ class SwerveModuleControl():
         """
         self.wheelMotor = WrapperedSparkMax(wheelMotorCanID, moduleName+"_wheel", False)
         self.azmthMotor = WrapperedSparkMax(azmthMotorCanID, moduleName+"_azmth", True)
-        self.azmthEnc  = wrappereSwerveDriveAzmthEncoder(azmthEncoderPortIdx, moduleName, azmthOffset)
-        #WrapperedSRXMagEncoder(azmthEncoderPortIdx, moduleName + "_azmthEnc", azmthOffset, False)
+        self.azmthEnc  = wrapperedSwerveDriveAzmthEncoder(azmthEncoderPortIdx, moduleName, azmthOffset)
 
         self.wheelMotor.setInverted(invertWheel)
-        self.azmthMotor.setInverted(False)
+        self.azmthMotor.setInverted(INVERT_AZMTH_MOTOR)
         
         self.wheelMotorFF = SimpleMotorFeedforwardMeters(0,0,0)
 

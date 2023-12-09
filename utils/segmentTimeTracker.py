@@ -35,4 +35,3 @@ class SegmentTimeTracker():
         log("LoopDuration", self.curLoopExecDur * 1000.0, "ms")
         log("LoopEndTime", self.loopEndTime*1000.0*1000.0, "s")
         log("CountOfOverRuns", self.numOfOverRuns, "count")
-
