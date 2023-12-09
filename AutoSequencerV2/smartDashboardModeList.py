@@ -19,7 +19,7 @@ class SmartDashboardModeList():
         else:
             self.desChooser.addOption(modeIn.getName(), numOfModes)
         self.modes.append(modeIn)
-        wpilib.SmartDashboard.putData(self.getCurModeTopicName(), self.desChooser)
+        #wpilib.SmartDashboard.putData(self.getDesModeTopicName(), self.desChooser)
 
     def updateMode(self, force=False):
         prevModeIdx = self.curModeIdx
@@ -46,4 +46,5 @@ class SmartDashboardModeList():
         return f"/SmartDashboard"
 
     def listIsComplete(self):
-        wpilib.SmartDashboard.putData(self.getCurModeTopicName(), self.desChooser)
+        wpilib.SmartDashboard.putData(self.getDesModeTopicName(), self.desChooser)
+        wpilib.SmartDashboard.putString(self.getCurModeTopicName(), self.modes[self.curModeIdx].getName())

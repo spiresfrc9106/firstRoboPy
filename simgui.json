@@ -34,7 +34,9 @@
       "/SmartDashboard/DT Pose 2D": "Field2d",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/cur_Delay": "String Chooser",
-      "/SmartDashboard/cur_Main": "String Chooser"
+      "/SmartDashboard/cur_Main": "String Chooser",
+      "/SmartDashboard/des_Delay": "String Chooser",
+      "/SmartDashboard/des_Main": "String Chooser"
     },
     "windows": {
       "/FMSInfo": {
@@ -71,6 +73,9 @@
   "NetworkTables": {
     "transitory": {
       "SmartDashboard": {
+        "des_Main": {
+          "open": true
+        },
         "open": true
       }
     }
