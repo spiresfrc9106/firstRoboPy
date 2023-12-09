@@ -16,7 +16,7 @@ class DisabledDashboard():
         print("Disabled Dashboard:Server shutting down")
 
 def webserverConstructorOrNone():
-    return DisabledWebserver
+    return DisabledWebserver()
 
 def dashboardOrNone():
     return DisabledDashboard()

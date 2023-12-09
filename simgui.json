@@ -73,9 +73,6 @@
   "NetworkTables": {
     "transitory": {
       "SmartDashboard": {
-        "des_Main": {
-          "open": true
-        },
         "open": true
       }
     }
