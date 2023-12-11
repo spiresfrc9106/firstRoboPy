@@ -19,4 +19,3 @@ class WrapperedRevThroughBoreEncoder(WrapperedPulseWidthEncoder):
             minPulseSec=1e-6,
             maxPulseSec=1025e-6,
             minAcceptableFreqHz=0.9 / 1025e-6)
-

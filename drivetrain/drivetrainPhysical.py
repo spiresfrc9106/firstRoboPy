@@ -10,6 +10,8 @@ from utils.units import deg2Rad
 from utils.units import in2m
 from wrappers.wrapperedRevThroughBoreEncoder import WrapperedRevThroughBoreEncoder
 
+# pylint: disable=R0801
+
 """
 Defines the physical dimensions and characteristics of the drivetrain
 """
@@ -132,7 +134,7 @@ def wrapperedGyro():
     :param spi_bitrate: SPI bitrate (Maximum:  2,000,000)
     :param update_rate_hz: Custom Update Rate (Hz)
     """
-    return navx.AHRS(spi_port_id=SPI.Port.kMXP, spi_bitrate=2000000, update_rate_hz=66)
+    return navx.AHRS(spi_port_id=SPI.Port.kMXP, spi_bitrate=1000000, update_rate_hz=50)
 
 
 # Array of translations from robot's origin (center bottom, on floor) to the module's contact patch with the ground

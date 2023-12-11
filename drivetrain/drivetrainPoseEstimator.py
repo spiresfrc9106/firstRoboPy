@@ -1,4 +1,3 @@
-from wpilib import ADXRS450_Gyro 
 from wpimath.estimator import SwerveDrive4PoseEstimator
 from wpimath.geometry import Pose2d, Rotation2d
 from drivetrain.drivetrainPhysical import kinematics
