@@ -47,39 +47,19 @@ class CrashLogger():
             while(not uniqueFileFound):
                 logFileName = f"crashLog_{idx}.log"
                 storagePath = ExtDriveManager().getLogStoragePath()
-                #TODO-Chris Some debug code sorting out that I didn't have a USB stick that was formated FAT32
-                #TODO-why do these print statements come out backwards
-                # See: 2023_12_14 20_45_29 Thu.csv from C:\Users\Public\Documents\FRC\Log Files\2023_12_14 20_45_29 Thu.dslog
-                # rootLogger.addHandler got fileHandle
-                # got logger found unqiue path
-                # trying to open /U/logs crashLog_8.log
-                # trying to open /U/logs crashLog_7.log
-                # trying to open /U/logs crashLog_6.log
-                # trying to open /U/logs crashLog_5.log
-                # trying to open /U/logs crashLog_4.log
-                # trying to open /U/logs crashLog_3.log
-                # trying to open /U/logs crashLog_2.log
-                # trying to open /U/logs crashLog_1.log
-                # trying to open /U/logs crashLog_0.log
-                print(f"trying to open {storagePath} {logFileName}",flush=True)
                 logPath = os.path.join(storagePath, logFileName)
                 uniqueFileFound = not os.path.isfile(logPath)
                 idx += 1
-            print("found unqiue path",flush=True)
             # Install a custom logger for all errors. This should include stacktraces
             # if the robot crashes on the field.
             logFormatter = logging.Formatter("%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s]  %(message)s")
             rootLogger = logging.getLogger()
-            print("got logger",flush=True)
 
             self.fileHandler = logging.FileHandler(logPath)
-            print("got fileHandle",flush=True)
             self.fileHandler.setFormatter(logFormatter)
             self.fileHandler.setLevel(logging.ERROR)
             rootLogger.addHandler(self.fileHandler)
 
-            print("rootLogger.addHandler",flush=True)
             self.logPrint(f"\n==============================================")
-            print("logPrintf", flush=True)
             self.logPrint(f"Beginning of Log {logPath}")
             self.logPrint(f"Started {datetime.now()}")

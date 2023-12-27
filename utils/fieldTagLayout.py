@@ -3,6 +3,7 @@ from robotpy_apriltag import AprilTagFieldLayout
 from utils.faults import Fault
 from utils.singleton import Singleton
 
+
 class FieldTagLayout(metaclass=Singleton):
     def __init__(self):
 
@@ -19,8 +20,8 @@ class FieldTagLayout(metaclass=Singleton):
             self.fieldTags = None
             self.notLoadedFault.setFaulted()
 
-    def lookup(self, id):
+    def lookup(self, tagId):
         if(self.fieldTags is not None):
-            return self.fieldTags.getTagPose(id)
+            return self.fieldTags.getTagPose(tagId)
         else:
             return None

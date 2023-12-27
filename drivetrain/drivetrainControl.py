@@ -1,7 +1,7 @@
 from wpimath.kinematics import ChassisSpeeds
 from wpimath.geometry import Pose2d, Rotation2d
-from jormungandr.choreoTrajectory import ChoreoTrajectoryState
 from utils.singleton import Singleton
+from utils.segmentTimeTracker import SegmentTimeTracker
 
 from drivetrain.poseEstimation.drivetrainPoseEstimator import DrivetrainPoseEstimator
 from drivetrain.swerveModuleControl import SwerveModuleControl
@@ -23,6 +23,7 @@ class DrivetrainControl(metaclass=Singleton):
     Top-level control class for controlling a swerve drivetrain
     """
     def __init__(self):
+        self.stt = SegmentTimeTracker()
         self.modules = []
         self.modules.append(SwerveModuleControl("FL", 2, 3, 0, FL_ENCODER_MOUNT_OFFSET_RAD, FL_INVERT_WHEEL_MOTOR))
         self.modules.append(SwerveModuleControl("FR", 4, 5, 1, FR_ENCODER_MOUNT_OFFSET_RAD, FR_INVERT_WHEEL_MOTOR))
@@ -84,22 +85,32 @@ class DrivetrainControl(metaclass=Singleton):
         
         # Given the current desired chassis speeds, convert to module states
         desModStates = kinematics.toSwerveModuleStates(self.desChSpd)
+        #              12345678901234567890123456789012345
+        self.stt.mark("desModStates_______________________")
         
         # Scale back commands if one corner of the robot is going too fast
         kinematics.desaturateWheelSpeeds(desModStates, MAX_FWD_REV_SPEED_MPS)
+        #              12345678901234567890123456789012345
+        self.stt.mark("desaturateWheelSpeeds______________")
 
         # Send commands to modules and update
         for idx, module in enumerate(self.modules):
             module.setDesiredState(desModStates[idx])
             module.update()
-            
+        #              12345678901234567890123456789012345
+        self.stt.mark("Send commands to modules and update")
+
         # Update the estimate of our pose
         self.poseEst.update(self.getModulePositions(), self.getModuleSpeeds())
-        
+        #              12345678901234567890123456789012345
+        self.stt.mark("poseEst.update_____________________")
+
         # Update calibration values if they've changed
         if(self.gains.hasChanged()):
             self._updateAllCals()
-            
+        #              12345678901234567890123456789012345
+        self.stt.mark("gains.hasChanged___________________")
+
                 
     def _updateAllCals(self):
         # Helper function - updates all calibration on request

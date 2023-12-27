@@ -4,6 +4,7 @@ from photonlibpy.photonCamera import PhotonCamera, VisionLEDMode, setVersionChec
 from utils.fieldTagLayout import FieldTagLayout
 from utils.faults import Fault
 
+
 class CameraPoseObservation():
     def __init__(self, time, estFieldPose, trustworthiness=1.0):
         self.time = time

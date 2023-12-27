@@ -1,3 +1,4 @@
+"""
 from utils.singleton import Singleton
 
 # pylint: disable=R0801
@@ -36,4 +37,3 @@ def webserverConstructorOrNone():
 
 def dashboardOrNone():
     return Dashboard()
-"""

@@ -1,12 +1,13 @@
 import wpilib
 
 from utils.signalLogging import log
+from utils.singleton import Singleton
 
 # Utilties for tracking how long certain chunks of code take
 # including logging overall loop execution time
-class SegmentTimeTracker():
-    def __init__(self, longLoopThresh = 0.03):
-        self.longLoopThresh = longLoopThresh
+class SegmentTimeTracker(metaclass=Singleton):
+    def __init__(self):
+        self.longLoopThresh = 0.003
         self.tracer = wpilib.Tracer()
         self.loopStartTime = wpilib.Timer.getFPGATimestamp()
         self.loopEndTime = wpilib.Timer.getFPGATimestamp()
@@ -33,7 +34,7 @@ class SegmentTimeTracker():
         self.numLoops += 1
         if(self.curLoopExecDur > self.longLoopThresh):
             self.numOverRuns += 1
-            #self.tracer.printEpochs()
+            self.tracer.printEpochs()
         log("LoopDuration", self.curLoopExecDur * 1000.0, "ms")
         log("LoopEndTime", self.loopEndTime*1000.0, "ms")
         log("LoopCount", self.numLoops, "count")

@@ -25,14 +25,13 @@ class MyRobot(wpilib.TimedRobot):
         # pylint: disable=attribute-defined-outside-init
 
         self.crashLogger = CrashLogger()
+        self.stt = SegmentTimeTracker()
         wpilib.LiveWindow.disableAllTelemetry()
         self.webserver = webserverConstructorOrNone()
 
 
         self.driveTrain = DrivetrainControl()
                 
-        self.stt = SegmentTimeTracker()
-        
         self.dInt = DriverInterface()
 
         self.autoSequencer = AutoSequencer()
@@ -52,16 +51,31 @@ class MyRobot(wpilib.TimedRobot):
 
     def robotPeriodic(self):
         self.stt.start()
+        #              12345678901234567890123456789012345
+        self.stt.mark("start-crashLogger.update___________")
         self.crashLogger.update()
-        
+        #              12345678901234567890123456789012345
+        self.stt.mark("start-crashLogger__________________")
+
         if(self.dInt.getGyroResetCmd()):
             self.driveTrain.resetGyro()
-        
+        #              12345678901234567890123456789012345
+        self.stt.mark("driveTrain.resetGyro_______________")
+
         self.driveTrain.update()
-        
+        #              12345678901234567890123456789012345
+        self.stt.mark("driveTrain.update__________________")
+
         SignalWrangler().publishPeriodic()
+        #              12345678901234567890123456789012345
+        self.stt.mark("SignalWrangler().publishPeriodic() ")
         CalibrationWrangler().update()
+        #              12345678901234567890123456789012345
+        self.stt.mark("CalibrationWrangler().update()_____")
+
         FaultWrangler().update()
+        #              12345678901234567890123456789012345
+        self.stt.mark("FaultWrangler().update()___________")
         self.stt.end()
         
     #########################################################

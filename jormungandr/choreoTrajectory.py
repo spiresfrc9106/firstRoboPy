@@ -9,11 +9,17 @@ def _floatInterp(start, end, frac) -> float:
     return start + (end - start) * frac
 
 class ChoreoTrajectoryState:
-    def __init__(self, timestamp:float, x:float, y:float, heading:float,
-                 velocityX:float, velocityY:float, angularVelocity:float):
+    def __init__(self,
+                 timestamp:float,
+                 x:float, # pylint: disable=invalid-name
+                 y:float, # pylint: disable=invalid-name
+                 heading:float,
+                 velocityX:float,
+                 velocityY:float,
+                 angularVelocity:float):
         self.timestamp = timestamp
-        self.x = x
-        self.y = y
+        self.x = x # pylint: disable=invalid-name
+        self.y = y # pylint: disable=invalid-name
         self.heading = heading
         self.velocityX = velocityX
         self.velocityY = velocityY
@@ -29,7 +35,10 @@ class ChoreoTrajectoryState:
         return [self.timestamp, self.x, self.y, self.heading, 
                 self.velocityX, self.velocityY, self.angularVelocity]
         
-    def interpolate(self, endValue:ChoreoTrajectoryState, t:float) -> ChoreoTrajectoryState:
+    def interpolate(self,
+                    endValue:ChoreoTrajectoryState,
+                    t:float # pylint: disable=invalid-name
+    ) -> ChoreoTrajectoryState:
         scale = (t - self.timestamp) / (endValue.timestamp - self.timestamp)
         
         return ChoreoTrajectoryState(
