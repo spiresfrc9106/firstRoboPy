@@ -2,8 +2,7 @@ __pycache__
 simgui-*.json
 networktables.json
 .coverage
-simulationLogs
-simulationCrashLogs
+.simulationLogs
 .wpilib
 
 # 9106 specific ignores

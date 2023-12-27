@@ -19,8 +19,8 @@
                     "remoteRoot": "/home/lvuser/py"
                 }
             ],
-            "justMyCode": true,
-            "preLaunchTask": "PyFRC: _Activate Debug"
+            "justMyCode": false,
+            "preLaunchTask": "PyFRC: RIO Debug PreSteps",
         },
         {
             "name": "Simulate",

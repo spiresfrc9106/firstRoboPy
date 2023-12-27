@@ -1,8 +1,9 @@
 from wpimath.kinematics import ChassisSpeeds
 from wpimath.geometry import Pose2d, Rotation2d
+from jormungandr.choreoTrajectory import ChoreoTrajectoryState
 from utils.singleton import Singleton
 
-from drivetrain.drivetrainPoseEstimator import DrivetrainPoseEstimator
+from drivetrain.poseEstimation.drivetrainPoseEstimator import DrivetrainPoseEstimator
 from drivetrain.swerveModuleControl import SwerveModuleControl
 from drivetrain.swerveModuleGainSet import SwerveModuleGainSet
 from drivetrain.drivetrainTrajectoryControl import DrivetrainTrajectoryControl
@@ -73,7 +74,7 @@ class DrivetrainControl(metaclass=Singleton):
         """
         tmp = self.trajCtrl.update(cmd, self.poseEst.getCurEstPose())
         self.desChSpd = _discretizeChSpd(tmp)
-        self.poseEst.telemetry.setDesiredPose(Pose2d(cmd.pose.translation(), cmd.holonomicRotation))
+        self.poseEst.telemetry.setDesiredPose(cmd.getPose())
 
 
     def update(self):
@@ -93,7 +94,7 @@ class DrivetrainControl(metaclass=Singleton):
             module.update()
             
         # Update the estimate of our pose
-        self.poseEst.update(self.getModulePositions())
+        self.poseEst.update(self.getModulePositions(), self.getModuleSpeeds())
         
         # Update calibration values if they've changed
         if(self.gains.hasChanged()):
@@ -112,6 +113,13 @@ class DrivetrainControl(metaclass=Singleton):
             Tuple of the actual module positions (as read from sensors)
         """
         return tuple(mod.getActualPosition() for mod in self.modules)
+    
+    def getModuleSpeeds(self):
+        """
+        Returns:
+            Tuple of the actual module speeds (as read from sensors)
+        """
+        return tuple(mod.getActualState() for mod in self.modules)
     
     def resetGyro(self):
         # Update pose estimator to think we're at the same translation,

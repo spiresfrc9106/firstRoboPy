@@ -12,31 +12,10 @@ Before developing code on a new computer, perform the following:
 3. Run these commands:
 
 ```cmd
-    cd TO_THE_DIRECTORY_THAT_WAS_CLONED
     python -m pip install --upgrade pip
-    python -m pip install -r requirements.txt
-```
-
-```cmd
-python -m robotpy_installer download-python
-python -m robotpy_installer download -r roborio_requirements.txt
-```
-
-4. Power-up the robot
-5. Make sure that you're on the same network as the robot
-5.1 One way is to leave your computer connected to WiFi internet and make a wired Ethernet connection to the robot
-5.2 Another way is to connect your computer to the robot over WiFi
-6. Optionally reflash your roboRIO like this to get a clean install: https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-3/index.html
-7. Install needed python and libraries on the RoboRIO see: https://robotpy.readthedocs.io/en/stable/install/robot.html#install-robotpy
-
-```cmd
-python -m robotpy_installer install-python
-python -m robotpy_installer install robotpy
-python -m robotpy_installer install debugpy
-python -m robotpy_installer install robotpy[ctre]
-python -m robotpy_installer install robotpy[rev]
-python -m robotpy_installer install robotpy[navx]
-python -m robotpy_installer install robotpy[pathplannerlib]
+    python -m pip install robotpy[all]
+    python -m pip install -r requirements_dev.txt
+    python -m pip install -r requirements_run.txt
 ```
 
 ## Docs
@@ -108,6 +87,8 @@ https://pytest.org/en/7.4.x/example/index.html
 
 `.deploy_cfg` contains specific configuration about the deploy process.
 
+Note any folder or file prefixed with a `.` will be skipped in the deploy.
+
 ## Linting
 
 "Linting" is the process of checking our code format and style to keep it looking nice
@@ -134,3 +115,34 @@ To minimize frustration and rework, before committing, be sure to:
 
 1. Run the test suite
 2. Run `lint.bat` and fix any formatting errors
+
+## RIO First-time Installation
+
+Follow [the robotpy instructions for setting up the RIO](https://robotpy.readthedocs.io/en/stable/install/robot.html)
+
+Then, install all packages specific to our repo, from `requirements.txt`, following the [two step process for roboRIO package installer](https://robotpy.readthedocs.io/en/stable/install/packages.html)
+
+While on the internet:
+
+`python -m robotpy_installer download -r requirements_run.txt`
+
+Then, while connected to the robot's network:
+
+`python -m robotpy_installer install -r requirements_run.txt`
+
+## Dependency Management
+
+In python, `requirements.txt` lists out all the non-standard packages that need to be installed.
+
+However, a few hangups:
+
+* The list of dependencies for the RIO and for our PC's to do software development is different
+* The RIO has limited disk storage space, so we don't want extra packages if we can avoid it.
+
+For now, we're resolving that by having two requirements files - `requirements_dev.txt` lists everything needed just for software development. `requirements_run.txt` lists everything needed to run the code.
+
+Development PC's should pip-install both.
+
+The RoboRIO should only install _run.txt
+
+When recording a new dependency, run `pip freeze > tmp.txt`, then open up `tmp.txt`. It will have a lot of things inside it. Find your new dependency in the list, and add it to the appropriate requirements file. Then delete `tmp.txt`

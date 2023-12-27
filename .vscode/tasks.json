@@ -12,7 +12,10 @@
             "linux": {
                 "command": "python ${workspaceFolder}/robot.py deploy --skip-tests "
             },
-            "group": "build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
             "presentation": {
                 "reveal": "always",
                 "panel": "dedicated",
@@ -26,16 +29,38 @@
             }
         },
         {
-            "label": "PyFRC: _Activate Debug",
+            "label": "PyFRC: RIO Debug PreSteps",
+            "dependsOn": [
+                "PyFRC: Deploy Debug",
+                "delay"
+            ],
+            "dependsOrder": "sequence",
+            "group": "none",
+            "hide": true
+        },
+        {
+            "label": "delay",
+            "type": "shell",
+            "command": "sleep 3",
+            "presentation": {
+                "reveal": "silent",
+                "panel": "dedicated",
+                "clear": true,
+                "focus": false,
+                "showReuseMessage": false
+            },
+            "problemMatcher": [],
+            "group": "none",
+            "hide": true
+        },
+        {
+            "label": "PyFRC: Deploy Debug",
             "type": "shell",
             "windows": {
-                "command": "ssh lvuser@roboRIO-9106-FRC.local -t 'touch /home/lvuser/py/enableDebug; ./robotCommand || true; echo Waiting for robot program to start...; sleep 5' "
+                "command": "python ${workspaceFolder}\\robot.py deploy --skip-tests --debug"
             },
             "linux": {
-                "command": "ssh lvuser@roboRIO-9106-FRC.local -t 'touch /home/lvuser/py/enableDebug; ./robotCommand || true; echo Waiting for robot program to start...; sleep 5' "
-            },
-            "group": {
-                "kind": "build"
+                "command": "python ${workspaceFolder}/robot.py deploy --skip-tests --debug"
             },
             "presentation": {
                 "reveal": "always",
@@ -50,7 +75,7 @@
             }
         },
         {
-            "label": "PyFRC: _Run Lint Check",
+            "label": "PyFRC: Run Lint Check",
             "type": "shell",
             "windows": {
                 "command": "python -m pylint --rcfile=${workspaceFolder}\\.pylintrc ${workspaceFolder}\\**\\*.py"
@@ -68,14 +93,10 @@
             "problemMatcher": [],
             "icon": {
                 "id": "microscope"
-            },
-            "group": {
-                "kind": "build",
-                "isDefault": true
             }
         },
         {
-            "label": "PyFRC: _Run Test Suite",
+            "label": "PyFRC: Run Test Suite",
             "type": "shell",
             "windows": {
                 "command": "python ${workspaceFolder}\\robot.py test"
@@ -100,7 +121,7 @@
             }
         },
         {
-            "label": "PyFRC: _Run Simulation",
+            "label": "PyFRC: Run Simulation",
             "type": "shell",
             "windows": {
                 "command": "python ${workspaceFolder}\\robot.py sim"
@@ -124,13 +145,13 @@
             }
         },
         {
-            "label": "PyFRC: _View Netconsole",
+            "label": "PyFRC: View Netconsole",
             "type": "shell",
             "windows": {
-                "command": "python -m netconsole roboRIO-9106-frc.local"
+                "command": "py -3 -m netconsole roboRIO-1736-frc.local"
             },
             "linux": {
-                "command": "netconsole roboRIO-9106-frc.local"
+                "command": "netconsole roboRIO-1736-frc.local"
             },
             "group": {
                 "kind": "build"
