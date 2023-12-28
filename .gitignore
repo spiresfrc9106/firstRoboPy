@@ -4,3 +4,6 @@ networktables.json
 .coverage
 simulationLogs
 simulationCrashLogs
+# 9106 specific ignores
+/venv*
+/.idea
